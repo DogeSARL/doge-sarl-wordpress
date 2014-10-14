@@ -1,17 +1,12 @@
 <?php
 /**
- * The template for displaying the footer
- *
- * Contains footer content and the closing of the #main and #page div elements.
- *
- * @package WordPress
- * @subpackage Twenty_Fourteen
- * @since Twenty Fourteen 1.0
+	Footer Doge
  */
 ?>
         <footer>
-            bloc footer
+              <?php bloginfo('name'); ?> est crée par <a href="localhost">Doge</a>.
         </footer>
     </div>
+	    <?php wp_footer(); ?>
 </body>
 </html>

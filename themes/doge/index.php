@@ -1,8 +1,13 @@
 <?php
     get_header();
 ?>
+	
     <div class="content">
-        Bloc content
+     <?php get_template_part('loop'); ?>
     </div>
-
-<?php get_footer(); ?>
+	
+<?php
+	
+	get_sidebar();
+	get_footer(); 
+ ?>
