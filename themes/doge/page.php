@@ -1,9 +1,8 @@
 <?php
 /*
-  Template Name: Template A
-  Description: Une page classique contenu gauche widget à droite
+Template Name: Statistiques
 */
-
+?>
 <?php get_header(); ?>
 <div class="main page">
   <?php if (have_posts()) : ?>
@@ -11,7 +10,10 @@
       <div class="post">
         <h1 class="post-title"><?php the_title(); ?></h1>
         <div class="post-content">
-          <?php the_content(); ?>
+		  <?php the_content(); ?>
+          <p>Nombre de Posts : <strong><?php echo wp_count_posts()->publish; ?></strong></p>
+          <p>Nombre de Pages : <strong><?php echo wp_count_posts('page')->publish; ?></strong></p>
+          <p>Nombre de commentaires publiÃ©s : <strong><?php echo wp_count_comments()->approved; ?></strong></p>
         </div>
       </div>
     <?php endwhile; ?>

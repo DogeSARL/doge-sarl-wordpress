@@ -1,4 +1,4 @@
-﻿<div class="side">
+﻿<div class="sidebar">
   <!-- Bouton RSS -->
   <a href="<?php bloginfo('rss2_url'); ?>">S'abonner au flux RSS</a>
   <!-- Formulaire de recherche -->
@@ -7,4 +7,5 @@
   <ul class="list">
     <?php wp_get_archives('type=monthly'); ?>
   </ul>
+  
 </div>
