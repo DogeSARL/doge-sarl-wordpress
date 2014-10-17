@@ -1,3 +1,5 @@
+<?php include('calendar.php'); ?>
+
 <?php
     get_header();
 ?>
