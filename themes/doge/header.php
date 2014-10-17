@@ -31,13 +31,15 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/normalize.css">
+        <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/jquery.bxslider/jquery.bxslider.css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/style.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
         <header>
-            <div id="header_menu">
-                <div class="logo_wrapper"><img alt="" src="./img/logo.png"></div>
+            <div id="header_menu" class="clearfix">
+                <div class="logo_wrapper"><img alt="" src="<?php bloginfo('template_url'); ?>/img/logo.png"></div>
                 <ul class="menu clearfix">
                     <li><a href="">Accueil</a></li>
                     <li><a href="">News</a></li>
