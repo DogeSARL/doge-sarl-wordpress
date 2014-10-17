@@ -5,9 +5,15 @@ include_once('MyWidget.php');
 $prefix = "evenement";
 $custom_meta_fields = array(
     array(
-        'label'=> 'Date Evénement',
-        'desc'  => 'Date de l\'Evénement',
-        'id'    => $prefix . '_date',
+        'label'=> 'Date Début Evénement',
+        'desc'  => 'Date de début l\'Evénement',
+        'id'    => $prefix . '_date_debut',
+        'type'  => 'text'
+    ),
+    array(
+        'label'=> 'Date Fin Evénement',
+        'desc'  => 'Date de fin l\'Evénement',
+        'id'    => $prefix . '_date_fin',
         'type'  => 'text'
     )
 );
@@ -51,8 +57,10 @@ add_filter('manage_evenement_posts_columns', 'evenement_posts_heads');
 function evenement_posts_heads( $defaults ) {
     $new = array();
     foreach($defaults as $key => $title) {
-        if ($key=='date') // Put the Thumbnail column before the Author column
-            $new['date_evenement'] = 'Date Evénement';
+        if ($key=='date'){ // Put the Thumbnail column before the Author column
+            $new['date_evenement_debut'] = 'Date Début Evénement';
+            $new['date_evenement_fin'] = 'Date Fin Evénement';
+        }
         $new[$key] = $title;
     }
     return $new;
@@ -60,7 +68,8 @@ function evenement_posts_heads( $defaults ) {
 
 add_filter( 'manage_edit-evenement_sortable_columns', 'evenement_table_sorting' );
 function evenement_table_sorting( $columns ) {
-    $columns['date_evenement'] = 'date_evenement';
+    $columns['date_evenement_debut'] = 'date_evenement_debut';
+    $columns['date_evenement_fin'] = 'date_evenement_fin';
     return $columns;
 }
 
@@ -68,9 +77,16 @@ add_filter( 'request', 'evenement_date_column_orderby' );
 function evenement_date_column_orderby( $vars ) {
     global $prefix;
 
-    if ( isset( $vars['orderby'] ) && 'evenement_date' == $vars['orderby'] ) {
+    if ( isset( $vars['orderby'] ) && 'evenement_date_debut' == $vars['orderby'] ) {
         $vars = array_merge( $vars, array(
-            'meta_key' => $prefix . '_date',
+            'meta_key' => $prefix . '_date_debut',
+            'orderby' => 'meta_value'
+        ) );
+    }
+
+    if ( isset( $vars['orderby'] ) && 'evenement_date_fin' == $vars['orderby'] ) {
+        $vars = array_merge( $vars, array(
+            'meta_key' => $prefix . '_date_fin',
             'orderby' => 'meta_value'
         ) );
     }
@@ -104,19 +120,31 @@ function evenement_table_filtering() {
         $dates = $wpdb->get_results(
             "SELECT EXTRACT(YEAR FROM meta_value) as year,
             EXTRACT( MONTH FROM meta_value ) as month
-            FROM $wpdb->postmeta WHERE meta_key = '{$prefix}_date'
+            FROM $wpdb->postmeta WHERE meta_key = '{$prefix}_date_fin'
                 AND post_id IN ( SELECT ID FROM $wpdb->posts
                     WHERE post_type = 'evenement' AND post_status != 'trash' )
                 GROUP BY year, month " );
 
-        echo '<select name="date_evenement">';
-        echo '<option value="">' . __( 'Toutes les dates d\'événement', 'textdomain' ) . '</option>';
+        echo '<select name="date_evenement_debut">';
+        echo '<option value="">' . __( 'Toutes les dates de début d\'événement', 'textdomain' ) . '</option>';
         foreach( $dates as $date ) {
             $month = $months[$date->month];
             $value = $date->year . '-' . ($month > 10 ? 0 . $date->month : $date->month ) . '-' . '01 00:00:00';
             $name = $month . ' ' . $date->year;
 
-            $selected = ( !empty( $_GET['date_evenement'] ) AND $_GET['date_evenement'] == $value ) ? 'selected="select"' : '';
+            $selected = ( !empty( $_GET['date_evenement_debut'] ) AND $_GET['date_evenement_debut'] == $value ) ? 'selected="select"' : '';
+            echo '<option value="'.$value.'"'.$selected.'>' . $name . '</option>';
+        }
+        echo '</select>';
+
+        echo '<select name="date_evenement_fin">';
+        echo '<option value="">' . __( 'Toutes les dates de fin d\'événement', 'textdomain' ) . '</option>';
+        foreach( $dates as $date ) {
+            $month = $months[$date->month];
+            $value = $date->year . '-' . ($month > 10 ? 0 . $date->month : $date->month ) . '-' . '01 00:00:00';
+            $name = $month . ' ' . $date->year;
+
+            $selected = ( !empty( $_GET['date_evenement_fin'] ) AND $_GET['date_evenement_fin'] == $value ) ? 'selected="select"' : '';
             echo '<option value="'.$value.'"'.$selected.'>' . $name . '</option>';
         }
         echo '</select>';
@@ -131,22 +159,52 @@ function evenement_table_filter( $query ) {
         $qv['meta_query'] = array();
 
 
-        if( !empty( $_GET['date_evenement'] ) ) {
-            $start_time = strtotime( $_GET['date_evenement'] );
-            $end_time = mktime( 0, 0, 0, date( 'n', $start_time ) + 1, date( 'j', $start_time ), date( 'Y', $start_time ) );
+        if( !empty( $_GET['date_evenement_debut'] ) ) {
+            $debut_start_time = strtotime( $_GET['date_evenement_debut'] );
+            $debut_end_time = mktime( 0, 0, 0, date( 'n', $debut_start_time ) + 1, date( 'j', $debut_start_time ), date( 'Y', $debut_start_time ) );
+        } else {
+            $debut_start_time = '1990-01-01 00:00:00';
+        }
 
-            $end_date = date( 'Y-m-d H:i:s', $end_time );
+        if( !empty( $_GET['date_evenement_fin'] ) ) {
+            $fin_start_time = strtotime( $_GET['date_evenement_fin'] );
+            $fin_end_time = mktime( 0, 0, 0, date( 'n', $fin_start_time ) + 1, date( 'j', $fin_start_time ), date( 'Y', $fin_start_time ) );
+        } else {
+            $fin_start_time = new DateTime();
+            $fin_start_time->modify('+5 year');
+            $fin_start_time = $fin_start_time->format('Y-m-d H:i:s');
+        }
+
+        if( !empty( $_GET['date_evenement_debut'] ) ) {
+            $end_date = date( 'Y-m-d H:i:s', $debut_end_time );
 
             $qv['meta_query'][] = array(
-                'field' => $prefix . 'date',
-                'value' => array( $_GET['date_evenement'], $end_date ),
+                'field' => $prefix . 'date_debut',
+                'value' => array( $_GET['date_evenement_debut'], $end_date ),
                 'compare' => 'BETWEEN',
                 'type' => 'DATETIME'
             );
-
         }
 
-        if( !empty( $_GET['orderby'] ) AND $_GET['orderby'] == 'date_evenement' ) {
+        if( !empty( $_GET['date_evenement_fin'] ) ){
+            $end_date = date( 'Y-m-d H:i:s', $fin_end_time );
+
+            $qv['meta_query'][] = array(
+                'field' => $prefix . 'date_fin',
+                'value' => array( $_GET['date_evenement_fin'], $end_date ),
+                'compare' => 'BETWEEN',
+                'type' => 'DATETIME'
+            );
+        }
+
+        if( !empty( $_GET['orderby'] ) AND $_GET['orderby'] == 'date_evenement_debut' ) {
+            $qv['orderby'] = 'meta_value';
+            $qv['meta_key'] = $prefix . 'date';
+            $qv['order'] = strtoupper( $_GET['order'] );
+        }
+
+
+        if( !empty( $_GET['orderby'] ) AND $_GET['orderby'] == 'date_evenement_debut' ) {
             $qv['orderby'] = 'meta_value';
             $qv['meta_key'] = $prefix . 'date';
             $qv['order'] = strtoupper( $_GET['order'] );
@@ -176,9 +234,18 @@ add_action( 'manage_evenement_posts_custom_column', 'evenenement_table_content',
 
 function evenenement_table_content( $column_name, $post_id ) {
     global $prefix;
-    if ($column_name == 'date_evenement') {
-        $event_date = DateTime::createFromFormat( 'Y-m-d H:i', get_post_meta( $post_id, $prefix . '_date', true ) );
-        echo $event_date->format('d/m/Y H:i');
+
+    if ($column_name == 'date_evenement_debut') {
+        $event_date = DateTime::createFromFormat( 'Y-m-d H:i', get_post_meta( $post_id, $prefix . '_date_debut', true ) );
+        if( $event_date ) {
+            echo $event_date->format('d/m/Y H:i');
+        }
+    }
+    if ($column_name == 'date_evenement_fin') {
+        $event_date = DateTime::createFromFormat( 'Y-m-d H:i', get_post_meta( $post_id, $prefix . '_date_fin', true ) );
+        if( $event_date ){
+            echo $event_date->format('d/m/Y H:i');
+        }
     }
 }
 
@@ -192,11 +259,11 @@ function create_meta_box(){
         'evenement', // $page
         'normal', // $context
         'high'); // $priority
+
 }
 
 function show_evenement_date() {
     global $custom_meta_fields, $post;
-
 
     // Use nonce for verification
     echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
@@ -226,8 +293,7 @@ function show_evenement_date() {
 }
 
 function save_evenement_date($post_id) {
-    global $prefix;
-
+    global $custom_meta_fields,$prefix;
 
     // verify nonce
     if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))
@@ -243,14 +309,16 @@ function save_evenement_date($post_id) {
         return $post_id;
     }
 
-    if( !empty($_POST[$prefix . '_date']) ) {
-        $old = DateTime::createFromFormat('Y-m-d H:i', get_post_meta($post_id, $prefix . '_date', true));
-        $new = DateTime::createFromFormat('d/m/Y H:i', $_POST[$prefix . '_date']); ;
+    foreach( $custom_meta_fields as $field ) {
+        if( !empty($_POST[$field['id']]) ) {
+            $old = DateTime::createFromFormat('Y-m-d H:i', get_post_meta($post_id, $field['id'], true));
+            $new = DateTime::createFromFormat('d/m/Y H:i', $_POST[$field['id']]); ;
 
-        if ($new && $new != $old) {
-            update_post_meta($post_id,  $prefix . '_date', $new->format('Y-m-d H:i'));
-        } elseif ('' == $new && $old) {
-            delete_post_meta($post_id, $prefix . '_date', $old->format('Y-m-d H:i'));
+            if ($new && $new != $old) {
+                update_post_meta($post_id,  $field['id'], $new->format('Y-m-d H:i'));
+            } elseif ('' == $new && $old) {
+                delete_post_meta($post_id, $field['id'], $old->format('Y-m-d H:i'));
+            }
         }
     }
 }
@@ -277,30 +345,50 @@ add_action( 'widgets_init', 'arphabet_widgets_init' );
 add_action( 'wp_ajax_get_events', 'getEvents' );
 
 function getEvents() {
-    global $wpdb; // this is how you get access to the database
+    global $prefix,$wpdb; // this is how you get access to the database
 
     $start_time = $_REQUEST['from'] / 1000;
     $end_time   = $_REQUEST['to'] / 1000;
 
-    $start_date = date('Y-m-d H:i:s', $start_time);
-    $end_date = date( 'Y-m-d H:i:s', $end_time );
+    $start_time = date( 'Y-m-d H:i:s', $start_time );
+    $end_time = date( 'Y-m-d H:i:s', $end_time );
+
+    $finLabel = $prefix . '_date_fin';
+    $debutLabel = $prefix . '_date_debut';
 
     $results = $wpdb->get_results(
-            "SELECT *
-            FROM $wpdb->postmeta WHERE meta_key = '{$prefix}_date'
-                AND post_id IN ( SELECT ID FROM $wpdb->posts
-                    WHERE post_type = 'evenement' AND post_status != 'trash' )
-                GROUP BY year, month " );
+        "SELECT posts.*, GROUP_CONCAT(meta_value) as meta_values
+            FROM $wpdb->posts as posts , $wpdb->postmeta as postmetas
+                WHERE post_type = 'evenement' AND post_status != 'trash'
+                AND posts.ID = postmetas.post_id
+                AND ( meta_key = '$finLabel' OR meta_key = '$debutLabel'  )
+                GROUP BY posts.ID"
+    );
 
-        new WP_Query( [
-        'post_type' => 'evenement',
-        'meta_key' => 'date_evenement'
-    ] );
+    $resultsArray = [];
+    foreach( $results as $result ) {
+        $values = explode(',',$result->meta_values);
 
-    echo "<pre>";
-    var_dump("");
-    echo "</pre>";
+        $start = strtotime( $values[0] ) * 1000 ;
+        $end = strtotime( $values[1] ) * 1000 ;
 
+        $resultsArray[] = [
+            "id" => $result->ID,
+            "title" => $result->post_title,
+            "url" => get_permalink($result->ID),
+            "class" => "event-important",
+            "start" => $start,
+            "end" => $end
+        ];
+
+
+    }
+
+    $jsonResults['success'] = 1;
+    $jsonResults['result'] = $resultsArray;
+    $jsonResults = json_encode( $jsonResults );
+
+    echo $jsonResults;
     die(); // this is required to terminate immediately and return a proper response
 }
 
@@ -322,6 +410,15 @@ function calendar_script(){
 
         wp_localize_script('calendar_app', 'calendar_options', $data);
 
+        wp_enqueue_style('bootstrap_css', get_template_directory_uri().'/css/bootstrap.css');
+        wp_enqueue_style('calendar_css', get_template_directory_uri().'/css/calendar.css');
     }
 }
+
+add_action( 'init', 'doge_register_theme_menu' );
+
+function doge_register_theme_menu() {
+    register_nav_menu( 'primary', 'Menu Principal' );
+}
+
 ?>
