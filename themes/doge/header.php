@@ -28,16 +28,17 @@
     <script src="<?php echo get_template_directory_uri(); ?>/js/html5.js"></script>
     <![endif]-->
     <?php wp_head(); ?>
-    <link href="<?php echo bloginfo("template_url"); ?>/css/bootstrap.css" rel="stylesheet" />
-    <link href="<?php echo bloginfo("template_url"); ?>/css/calendar.css" rel="stylesheet" />
 </head>
-
 <body>
+	<div id="menu" role="navigation">
+	</div>
     <div class="container">
         <header>
+		
             <div class="row">
                 <div class="col-sm-12">
-                    Bloc header
+				<img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" />
+					<?php wp_nav_menu( array( 'container_class' => 'main-nav', 'theme_location' => 'primary' ) ); ?>
                 </div>
             </div>
         </header>
