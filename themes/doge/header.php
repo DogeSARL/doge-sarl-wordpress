@@ -16,7 +16,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" <?php language_attributes(); ?> <!--<![endif]-->
     <head>
-        <meta charset="utf-8">
+        <meta charset="<?php bloginfo( 'charset' ); ?>">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title><?php
             if ( is_home() || is_front_page() ) {
@@ -30,22 +30,28 @@
         } ?></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/normalize.css">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/jquery.bxslider/jquery.bxslider.css">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/style.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+            <?php wp_head(); ?>
     </head>
     <body>
         <header>
             <div id="header_menu" class="clearfix">
                 <div class="logo_wrapper"><img alt="" src="<?php bloginfo('template_url'); ?>/img/logo.png"></div>
+                
+                <!-- <img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" /> -->
+
                 <ul class="menu clearfix">
                     <li><a href="">Accueil</a></li>
                     <li><a href="">News</a></li>
                     <li><a href="">Rencontres</a></li>
                     <li><a href="">Croquettes</a></li>
                     <li><a href="">Contact</a></li>
+                    <?php //wp_nav_menu( array( 'container_class' => 'main-nav', 'theme_location' => 'primary' ) ); ?>
                 </ul>
             </div>
         </header>
