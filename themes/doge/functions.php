@@ -1,5 +1,22 @@
 <?php
 
+add_action("after_switch_theme", "init_doge_theme");
+
+
+function init_doge_theme(){
+    global $wpdb;
+
+    $table = "create table  if not exists {$wpdb->prefix}doge_events(
+                post_id bigint(20) unsigned not null,
+                user_id bigint(20) unsigned not null,
+                UNIQUE (post_id, user_id),
+                foreign key(post_id) references {$wpdb->posts} ( ID ),
+                foreign key(user_id) references {$wpdb->users} ( ID )
+    );";
+
+    $wpdb->query( $table );
+}
+
 include_once('MyWidget.php');
 
 $prefix = "evenement";
@@ -392,13 +409,67 @@ function getEvents() {
     die(); // this is required to terminate immediately and return a proper response
 }
 
+$ajaxData = [
+    "template_directory_uri" => get_template_directory_uri(),
+    "ajax_link" => admin_url( 'admin-ajax.php' )
+];
+
+add_action( 'wp_enqueue_scripts', "event_front_script" );
+function event_front_script(){
+    global $ajaxData;
+
+    $ajaxData['user_id'] = get_current_user_id();
+    $ajaxData['post_id'] = get_the_ID();
+
+    wp_enqueue_script('custom_jquery', get_template_directory_uri().'/js/jquery.min.js');
+    wp_enqueue_script('event_button_script', get_template_directory_uri().'/js/event_button_script.js', [], false, true);
+
+    wp_localize_script('event_button_script', 'ajax_options', $ajaxData);
+}
+
+add_action( 'wp_ajax_subscribe', 'subscribe' );
+function subscribe(){
+    global $wpdb;
+
+    if( $wpdb->insert( $wpdb->prefix."doge_events", [ "post_id" => $_REQUEST['post_id'], "user_id" => $_REQUEST['user_id'] ] ) ){
+        echo 1;
+    }
+    else {
+        echo 0;
+    }
+
+    die;
+}
+
+add_action( 'wp_ajax_unsubscribe', 'unsubscribe');
+function unsubscribe(){
+    global $wpdb;
+
+    if( $wpdb->delete( $wpdb->prefix.'doge_events', array( 'user_id' => $_POST['user_id'], 'post_id' => $_POST['post_id'] ) ) )
+        echo 1;
+    else
+        echo 0;
+
+    die;
+}
+
+function isSubscribed( $userId, $postID ){
+    global $wpdb;
+
+    $count = $wpdb->get_var(
+                $wpdb->prepare( " SELECT count(*) FROM {$wpdb->prefix}doge_events
+                  WHERE post_id = %d
+                  AND   user_id = %d ",
+                $postID, $userId )
+             );
+
+    return $count > 0;
+}
+
 add_action('wp_enqueue_scripts','calendar_script');
 function calendar_script(){
+    global $ajaxData;
     if(is_page_template('calendar.php')){
-        $data = [
-            "template_directory_uri" => get_template_directory_uri(),
-            "ajax_link" => admin_url( 'admin-ajax.php' )
-        ];
 
         wp_deregister_script( 'jquery' );
         wp_enqueue_script('custom_jquery', get_template_directory_uri().'/js/jquery.min.js');
@@ -408,7 +479,7 @@ function calendar_script(){
         wp_enqueue_script('calendar_fr',get_template_directory_uri().'/js/language/fr-FR.js', [], false, true);
         wp_enqueue_script('calendar_app',get_template_directory_uri().'/js/custom_app.js', [], false, true);
 
-        wp_localize_script('calendar_app', 'calendar_options', $data);
+        wp_localize_script('calendar_app', 'ajax_options', $ajaxData);
 
         wp_enqueue_style('bootstrap_css', get_template_directory_uri().'/css/bootstrap.css');
         wp_enqueue_style('calendar_css', get_template_directory_uri().'/css/calendar.css');

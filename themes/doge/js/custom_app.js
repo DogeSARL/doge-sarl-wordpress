@@ -1,7 +1,7 @@
 var calendar = $("#calendar").calendar(
     {
-        tmpl_path: calendar_options.template_directory_uri + "/tmpls/",
-        events_source: calendar_options.ajax_link + "?action=get_events",
+        tmpl_path: ajax_options.template_directory_uri + "/tmpls/",
+        events_source: ajax_options.ajax_link + "?action=get_events",
         language: "fr-FR",
         onAfterViewLoad: function(view) {
         $(".page-header h3").text(this.getTitle());
