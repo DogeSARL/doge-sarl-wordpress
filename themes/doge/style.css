@@ -6,3 +6,7 @@ Description: Doge president !
 Version: 1.0
 
 */
+#branding hgroup
+{
+  position: absolute;
+}

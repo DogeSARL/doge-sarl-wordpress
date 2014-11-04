@@ -29,16 +29,21 @@
     <![endif]-->
     <?php wp_head(); ?>
     <link href="<?php echo bloginfo("template_url"); ?>/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="<?php echo bloginfo("template_url"); ?>style.css" rel="stylesheet" />
+	
 </head>
-<body>
+<body <?php body_class(); ?>>
 	<div id="menu" role="navigation">
 	</div>
     <div class="container">
         <header>
-		
+			<?php if ( get_header_image() ) : ?>
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+					<img src="<?php header_image(); ?>" width="<?php echo get_custom_header()->width; ?>" height="<?php echo get_custom_header()->height;   ?>" alt=""  <?php $blog_title = get_bloginfo(); ?>>
+				</a>
+			<?php endif; ?>
             <div class="row">
                 <div class="col-sm-12">
-				<img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" />
 					<?php wp_nav_menu( array( 'container_class' => 'main-nav', 'theme_location' => 'primary' ) ); ?>
                 </div>
             </div>
@@ -46,6 +51,7 @@
 
         <div class="slideshow">
             Bloc Visuel / Slideshow
+
         </div>
 
 
