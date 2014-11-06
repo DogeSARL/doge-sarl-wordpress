@@ -179,10 +179,18 @@ header{
 }
 
 #header_menu ul li a{
-    color: black;
+    color: #404040;
     text-decoration: none;
     padding: 10px 0;
     display: block;
+    -webkit-transition: opacity .3s ease-in-out;
+    -moz-transition: opacity .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
+}
+
+#header_menu ul li a:hover{
+    opacity: 0.6;
 }
 
 ul.menu{
@@ -277,7 +285,7 @@ ul.slide_home li img{
     margin:450px auto 0;
     width: 1024px;
     background-color: #ffffff;
-    padding: 20px 10px;
+    padding: 20px 10px 50px;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     box-sizing: border-box;
@@ -293,6 +301,18 @@ ul.slide_home li img{
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     box-sizing: border-box;
+}
+
+#home .block_home_title{
+    height: 71px;
+    overflow: hidden;
+    margin-bottom: 19px;
+}
+
+.preview_text{
+    height: 139px;
+    overflow: hidden;
+    margin-bottom:19px; 
 }
 
 #home h2{
@@ -464,6 +484,30 @@ a.border_animate:hover .border_bottom{
 
 .border_container{
     position: relative;
+}
+
+footer{
+    height: auto;
+    width: 100%;
+    background: #ffffff;
+    margin-top:50px; 
+}
+
+#insidefooter{
+    height:50px;
+    line-height: 50px;
+    width: 1024px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#insidefooter a{
+    display: inline-block;
+    vertical-align: middle;
+    font-family: 'Verlag-Book';
+    font-size: 12px;
+    color: #303030;
+    text-transform: uppercase;
 }
 
 

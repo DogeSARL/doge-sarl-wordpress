@@ -10,3 +10,20 @@ $(document).ready(function(){
 		easing: 'ease-in-out'
 	});
 });
+
+$(window).load(function(){
+	titleHome();	
+});
+
+function titleHome(){
+	if($('#home h2').length){
+		var maxHeight = 0;
+		$('#home h2').each(function(){
+			var thisHeight = $(this).height();
+			if( thisHeight > maxHeight){
+				maxHeight = thisHeight;
+			}
+		});
+		$('#home h2').height(maxHeight);
+	}
+}

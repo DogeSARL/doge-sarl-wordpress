@@ -41,7 +41,11 @@
     <body>
         <header>
             <div id="header_menu" class="clearfix">
-                <div class="logo_wrapper"><img alt="" src="<?php bloginfo('template_url'); ?>/img/logo.png"></div>
+                <div class="logo_wrapper">
+                    <a title="Accueil" href="<?php bloginfo('url'); ?>">
+                        <img alt="" src="<?php bloginfo('template_url'); ?>/img/logo.png">
+                    </a>
+                </div>
                 
                 <!-- <img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" /> -->
 
