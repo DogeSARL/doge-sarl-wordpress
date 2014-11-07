@@ -8,13 +8,20 @@ $custom_meta_fields = array(
         'label'=> 'Date Début Evénement',
         'desc'  => 'Date de début l\'Evénement',
         'id'    => $prefix . '_date_debut',
-        'type'  => 'text'
+        'type'  => 'datetime'
     ),
     array(
         'label'=> 'Date Fin Evénement',
         'desc'  => 'Date de fin l\'Evénement',
         'id'    => $prefix . '_date_fin',
-        'type'  => 'text'
+        'type'  => 'datetime'
+    ),
+    array(
+        'label' => 'Couleur' ,
+        'desc' => 'Couleur de la pastille sur le calendrier',
+        'id' => $prefix . '_color',
+        'type' => 'select',
+        'options' => array( 'event-important' => __('Rouge'), 'event-success' => __('Vert'), 'event-warning' => __('Jaune'), 'event-info' => __('Bleu'), 'event-inverse' => __('Noir'), 'event-special' => "Violet" )
     )
 );
 
@@ -60,6 +67,7 @@ function evenement_posts_heads( $defaults ) {
         if ($key=='date'){ // Put the Thumbnail column before the Author column
             $new['date_evenement_debut'] = 'Date Début Evénement';
             $new['date_evenement_fin'] = 'Date Fin Evénement';
+            $new['evenement_couleur'] = 'Couleur';
         }
         $new[$key] = $title;
     }
@@ -144,7 +152,7 @@ function evenement_table_filtering() {
             $value = $date->year . '-' . ($month > 10 ? 0 . $date->month : $date->month ) . '-' . '01 00:00:00';
             $name = $month . ' ' . $date->year;
 
-            $selected = ( !empty( $_GET['date_evenement_fin'] ) AND $_GET['date_evenement_fin'] == $value ) ? 'selected="select"' : '';
+            $selected = ( !empty( $_GET['date_evenement_fin'] ) AND $_GET['date_evenement_fin'] == $value ) ? 'selected' : '';
             echo '<option value="'.$value.'"'.$selected.'>' . $name . '</option>';
         }
         echo '</select>';
@@ -233,7 +241,7 @@ add_action( 'admin_enqueue_scripts', 'add_admin_scripts', 10, 1 );
 add_action( 'manage_evenement_posts_custom_column', 'evenenement_table_content', 10, 2 );
 
 function evenenement_table_content( $column_name, $post_id ) {
-    global $prefix;
+    global $prefix, $custom_meta_fields;
 
     if ($column_name == 'date_evenement_debut') {
         $event_date = DateTime::createFromFormat( 'Y-m-d H:i', get_post_meta( $post_id, $prefix . '_date_debut', true ) );
@@ -246,6 +254,9 @@ function evenenement_table_content( $column_name, $post_id ) {
         if( $event_date ){
             echo $event_date->format('d/m/Y H:i');
         }
+    }
+    if ($column_name == 'evenement_couleur') {
+        echo $custom_meta_fields[2]['options'][get_post_meta( $post_id, $prefix . '_color', true )];
     }
 }
 
@@ -271,23 +282,49 @@ function show_evenement_date() {
     // Begin the field table and loop
     echo '<table class="form-table">';
     foreach ($custom_meta_fields as $field) {
-        // get value of this field if it exists for this post
-        $meta = get_post_meta($post->ID, $field['id'], true);
-        // begin a table row with
-        echo '<tr>
+        if( $field['type'] == 'datetime'){
+            // get value of this field if it exists for this post
+            $meta = get_post_meta($post->ID, $field['id'], true);
+            if( $meta ){
+                $meta = DateTime::createFromFormat("Y-m-d H:i", $meta);
+            }
+
+            // begin a table row with
+            echo '<tr>
 
                 <th><label for="'.$field['id'].'">'.$field['label'].'</label></th>
                 <td>';
-        echo '<div class="form-group">
-                        <div class="input-group date" id="datetimepicker5">
-                            <input data-date-format="dd/mm/yyyy hh:ii" type="text" class="form-control" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" />
+            echo '<div class="form-group">
+                        <div class="input-group date">
+                            <input data-date-format="dd/mm/yyyy hh:ii" type="text" class="form-control" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta->format("d/m/Y h:i").'" size="30" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
+                            </span>                        </div>
                         <span class="description">'.$field['desc'].'</span>
                     </div>';
-        echo '</td></tr>';
+            echo '</td></tr>';
+        }
+        else if( $field['type'] == 'select' ){
+            $meta = get_post_meta($post->ID, $field['id'], true);
+            // begin a table row with
+            echo '<tr>
+
+                <th><label for="'.$field['id'].'">'.$field['label'].'</label></th>
+                <td>';
+            echo '<div class="form-group">
+                        <div class="input-group">
+                            <select class="form-control" name="'.$field['id'].'" id="'.$field['id'].'" />';
+
+            foreach( $field['options'] as $key => $value ) {
+                $selected = $meta == $key ? 'selected' : '';
+                echo "<option value=\"{$key}\" {$selected}>" . $value . "</option>";
+            }
+            echo '           </select></div>
+                        <span class="description">'.$field['desc'].'</span>
+                    </div>';
+            echo '</td></tr>';
+        }
+
     } // end foreach
     echo '</table>'; // end table
 }
@@ -311,13 +348,26 @@ function save_evenement_date($post_id) {
 
     foreach( $custom_meta_fields as $field ) {
         if( !empty($_POST[$field['id']]) ) {
-            $old = DateTime::createFromFormat('Y-m-d H:i', get_post_meta($post_id, $field['id'], true));
-            $new = DateTime::createFromFormat('d/m/Y H:i', $_POST[$field['id']]); ;
+            if( $field['type'] == 'datetime' ){
+                $old = DateTime::createFromFormat('Y-m-d H:i', get_post_meta($post_id, $field['id'], true));
+                $new = DateTime::createFromFormat('d/m/Y H:i', $_POST[$field['id']]); ;
 
-            if ($new && $new != $old) {
-                update_post_meta($post_id,  $field['id'], $new->format('Y-m-d H:i'));
-            } elseif ('' == $new && $old) {
-                delete_post_meta($post_id, $field['id'], $old->format('Y-m-d H:i'));
+                if ($new && $new != $old) {
+                    update_post_meta($post_id,  $field['id'], $new->format('Y-m-d H:i'));
+                } else if ('' == $new && $old) {
+                    delete_post_meta($post_id, $field['id'], $old->format('Y-m-d H:i'));
+                }
+            }
+
+            else if( $field['type'] == 'select' ){
+                $old = get_post_meta($post_id, $field['id']);
+                $new = $_POST[$field['id']];
+
+                if ($new && $new != $old) {
+                    update_post_meta($post_id,  $field['id'], $new);
+                } else if ('' == $new && $old) {
+                    delete_post_meta($post_id, $field['id'], $old);
+                }
             }
         }
     }
@@ -355,33 +405,44 @@ function getEvents() {
 
     $finLabel = $prefix . '_date_fin';
     $debutLabel = $prefix . '_date_debut';
+    $colorLabel = $prefix . '_color';
 
     $results = $wpdb->get_results(
         "SELECT posts.*, GROUP_CONCAT(meta_value) as meta_values
             FROM $wpdb->posts as posts , $wpdb->postmeta as postmetas
                 WHERE post_type = 'evenement' AND post_status != 'trash'
                 AND posts.ID = postmetas.post_id
-                AND ( meta_key = '$finLabel' OR meta_key = '$debutLabel'  )
+                AND ( meta_key = '$finLabel' OR meta_key = '$debutLabel' OR meta_key = '$colorLabel'  )
                 GROUP BY posts.ID"
     );
 
     $resultsArray = [];
     foreach( $results as $result ) {
-        $values = explode(',',$result->meta_values);
+        $values = explode( ',', $result->meta_values );
 
-        $start = strtotime( $values[0] ) * 1000 ;
-        $end = strtotime( $values[1] ) * 1000 ;
+        foreach( $values as $key => $value ){
+            if( substr( $value, 0, 5 ) == "event" ){
+                $class = $value;
+                unset($values[$key]);
+            }
+        }
+
+        $dateArray = [];
+        foreach( $values as $value ){
+            $dateArray[] = $value;
+        }
+
+        $start = strtotime( $dateArray[0] ) * 1000 ;
+        $end = strtotime( $dateArray[1] ) * 1000 ;
 
         $resultsArray[] = [
             "id" => $result->ID,
             "title" => $result->post_title,
             "url" => get_permalink($result->ID),
-            "class" => "event-important",
+            "class" => $class,
             "start" => $start,
             "end" => $end
         ];
-
-
     }
 
     $jsonResults['success'] = 1;
