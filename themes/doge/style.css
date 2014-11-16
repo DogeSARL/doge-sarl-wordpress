@@ -125,16 +125,20 @@ textarea {
     text-decoration: none;
 }
 
-
 body, html{
-    min-height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
+    min-width:1024px;
+}
+
+html{
+    height: 100%; 
 }
 
 body{
     background-color:#e9e9e8;
+    min-height: 100%;
 }
 
 header{
@@ -167,10 +171,11 @@ header{
     padding: 0;
     display:block;
     float: left;
-    font-family: 'Verlag-Book';
+    font-family: 'Open Sans', sans-serif;
     font-weight: normal;
     font-style: normal;
     font-size: 14px;
+    font-weight: 600;
     text-transform: uppercase;
 }
 
@@ -211,6 +216,8 @@ ul.menu{
     padding: 0;
     width: 100%;
     height: auto;
+    position: relative;
+    padding-bottom: 100px;
 }
 
 #home{
@@ -277,6 +284,7 @@ ul.slide_home li img{
     z-index: 100;
     top: 0;
     left: 0;
+    margin-top: -450px;
 }
 
 .content_wrapper{
@@ -490,7 +498,10 @@ footer{
     height: auto;
     width: 100%;
     background: #ffffff;
-    margin-top:50px; 
+    margin-top:50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 #insidefooter{
@@ -504,13 +515,244 @@ footer{
 #insidefooter a{
     display: inline-block;
     vertical-align: middle;
-    font-family: 'Verlag-Book';
+    font-family: 'Open Sans', sans-serif;
     font-size: 12px;
     color: #303030;
     text-transform: uppercase;
+    -webkit-transition: opacity .3s ease-in-out;
+    -moz-transition: opacity .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
 }
 
+#insidefooter a:hover{
+    opacity: 0.6;
+}
 
+#calendar{
+    width: 85%;
+    margin: 0 auto;
+    padding: 20px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing: border-box;
+}
+
+#calendar_wrapper{
+    width: 1024px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+#calendar_page .page-header{
+    width: 1024px;
+    margin: 0 auto;
+    margin: 84px auto 20px;
+    background-color: white;
+    padding: 20px;
+    border: none;
+    line-height: 34px;
+}
+
+#calendar_page h3{
+    margin: 0;
+    display: inline-block;
+    font-family: "Open Sans",sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+#single_event_page .main.single{
+    margin: 84px auto 0;
+    width: 1024px;
+}
+
+#single_event_page .post{
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing: border-box;
+}
+
+#single_event_page .post h1{
+    font-family: 'SabonBold';
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    color:#404040;
+    line-height: 22px;
+    text-transform: uppercase;
+    margin: 0 0 7px 0;
+}
+
+.col70{
+    float: left;
+    width: 68%;
+    display: block;
+    margin-right: 2%;
+}
+
+.col30{
+    display: block;
+    float: left;
+    width: 30%;
+}
+
+.sidebar{
+    background-color: white;
+    display: block;
+    height: auto;
+    margin: 0;
+    padding: 20px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing: border-box;
+}
+
+p.post-info{
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+
+.post-comments{
+    margin-top: 15px;
+}
+
+p.nocomments{
+    font-size: 11px;
+    font-style: italic;
+}
+
+.subscribeBox{
+    display: inline-block;
+}
+
+.subscribeBox a{
+    border: 1px solid #787878;
+    color: #262223;
+    display: inline-block;
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: normal;
+    height: auto;
+    padding: 5px 10px;
+    -webkit-transition: 0.2s ease-out;
+    -moz-transition: 0.2s ease-out;
+    -ms-transition: 0.2s ease-out;
+    -o-transition: 0.2s ease-out;
+    transition: 0.2s ease-out;
+}
+
+.subscribeBox a:hover{
+    color: #FFF;
+    background: #fcd68a;
+    border:1px solid #fcd68a;
+}
+
+.subscribeBox a{
+    color: #262223;
+    text-decoration:none;
+    -webkit-transition: 0.2s ease-out;
+    -moz-transition: 0.2s ease-out;
+    -ms-transition: 0.2s ease-out;
+    -o-transition: 0.2s ease-out;
+    transition: 0.2s ease-out;
+}
+
+.subscribeBox a:hover{
+    color:#fff;
+}
+
+.post-content{
+    margin-top:14px;
+}
+
+.post-content p{
+    margin-bottom: 7px;
+}
+
+.sidebar a{
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    color: #222;
+}
+
+.archives_titles{
+    font-size: 15px;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.sidebar #form{
+    margin:0;
+}
+
+.sidebar ul.list{
+    padding-left: 15px;
+    margin: 20px 0 0;
+}
+
+.sidebar ul.list li{
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    font-style: italic;
+    color: #222;
+}
+
+.sidebar ul.list li a{
+    -webkit-transition: 0.2s ease-out;
+    -moz-transition: 0.2s ease-out;
+    -ms-transition: 0.2s ease-out;
+    -o-transition: 0.2s ease-out;
+    transition: 0.2s ease-out;
+}
+
+.sidebar ul.list li a:hover{
+    opacity: 0.6;
+}
+
+#blog_search_form_wrapper {
+    margin: 0 0 27px;
+    max-width: 100%;
+    width: auto;
+}
+
+#blog_search_form {
+    margin: 0;
+    max-width: 100%;
+    padding: 0;
+    position: relative;
+    width: auto;
+}
+
+#blog_search_form fieldset {
+    border: 0 none;
+    margin: 0;
+    max-width: 100%;
+    padding: 0;
+    width: auto;
+}
+
+#blog_search_form .searchInput {
+    border: 1px solid #797979;
+    height: 28px;
+    width: 100%;
+}
+
+.iconSearch {
+    cursor: pointer;
+    display: block;
+    height: 16px;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    width: 22px;
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */

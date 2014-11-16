@@ -15,6 +15,10 @@ $(window).load(function(){
 	titleHome();	
 });
 
+$(window).on('load resize' , function(){
+	resizeContainer();
+});
+
 function titleHome(){
 	if($('#home h2').length){
 		var maxHeight = 0;
@@ -25,5 +29,13 @@ function titleHome(){
 			}
 		});
 		$('#home h2').height(maxHeight);
+	}
+}
+
+function resizeContainer(){
+	var heightContainer = $('#container').height();
+	var heightBody = $('body').height();
+	if( heightContainer < heightBody ){
+		$('#container').height(heightBody -100);
 	}
 }

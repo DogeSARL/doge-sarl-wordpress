@@ -488,3 +488,5 @@ add_action( 'init', 'doge_register_theme_menu' );
 function doge_register_theme_menu() {
     register_nav_menu( 'primary', 'Menu Principal' );
 }
+
+add_filter('show_admin_bar', '__return_false');
