@@ -43,7 +43,7 @@
             <div id="header_menu" class="clearfix">
                 <div class="logo_wrapper">
                     <a title="Accueil" href="<?php bloginfo('url'); ?>">
-                        <img alt="" src="<?php bloginfo('template_url'); ?>/img/logo.png">
+                        <img alt="" src="<?php bloginfo('template_url'); ?>/img/shiba_inu_logo.png">
                     </a>
                 </div>
                 

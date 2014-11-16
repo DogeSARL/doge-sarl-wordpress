@@ -211,6 +211,11 @@ ul.menu{
     vertical-align: middle;
 }
 
+.logo_wrapper img, .footer_logo{
+    width: 60px;
+    height: auto;
+}
+
 #container{
     margin: 0;
     padding: 0;

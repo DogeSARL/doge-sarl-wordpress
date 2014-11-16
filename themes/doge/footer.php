@@ -1,7 +1,7 @@
 	<footer>
 		<div id="insidefooter">
 			<a title="Accueil" href="<?php bloginfo('url'); ?>">
-				<img alt="" src="<?php bloginfo('template_url'); ?>/img/logo.png" style="margin-right:15px;">
+				<img class="footer_logo" alt="" src="<?php bloginfo('template_url'); ?>/img/shiba_inu_logo.png" style="margin-right:15px;">
 			</a>
 			<a title="Mentions Légales" href="" style="margin-right:7px;"> Mentions légales</a>
 			-
