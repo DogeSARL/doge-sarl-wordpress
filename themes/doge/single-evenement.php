@@ -31,6 +31,7 @@
                             <div class="post-content">
                                 <?php the_content(); ?>
                             </div>
+                            <hr>
                             <div class="post-comments">
                                 <?php comments_template(); ?>
                             </div>
