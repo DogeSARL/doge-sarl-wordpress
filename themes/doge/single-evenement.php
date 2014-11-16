@@ -16,7 +16,9 @@
                                 Posté le <?php the_date(); ?> dans <?php the_category(', '); ?> par <?php the_author(); ?>.
                             </p>
                             <!-- TODO TRANSLATE -->
-
+                            <div class="post-content">
+                                <?php the_content(); ?>
+                            </div>
                             <div class="subscribeBox">
                                 <?php if( is_user_logged_in() ) : ?>
                                     <?php if( isSubscribed( get_current_user_id(), get_the_ID() ) ) : ?>
@@ -27,9 +29,6 @@
                                 <?php else : ?>
                                     <a href="<?php echo wp_login_url( $redirect ); ?>">Se connecter</a>
                                 <?php endif; ?>
-                            </div>
-                            <div class="post-content">
-                                <?php the_content(); ?>
                             </div>
                             <hr>
                             <div class="post-comments">

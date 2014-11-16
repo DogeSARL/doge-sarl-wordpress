@@ -399,7 +399,8 @@ p{
 }
 
 #home hr,
-#single_event_page hr{
+#single_event_page hr,
+.sidebar hr{
     height: 0;
     width: 100%;
     border-top: none;
@@ -560,7 +561,8 @@ footer{
 }
 
 #calendar_page h3,
-.post-comments #respond h3{
+.post-comments #respond h3,
+h3#comments{
     margin: 0;
     display: inline-block;
     font-family: "Open Sans",sans-serif;
@@ -619,9 +621,23 @@ footer{
     box-sizing: border-box;
 }
 
-p.post-info{
+p.post-info,
+.comment-meta.commentmetadata{
     font-size: 11px;
     margin-bottom: 10px;
+}
+
+.comment-meta.commentmetadata a{
+    color:#222;
+    font-style: italic;
+    -webkit-transition: opacity .3s ease-in-out;
+    -moz-transition: opacity .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
+}
+
+.comment-meta.commentmetadata a:hover{
+    opacity: 0.6;
 }
 
 .post-comments{
@@ -637,7 +653,8 @@ p.nocomments{
     display: inline-block;
 }
 
-.subscribeBox a{
+.subscribeBox a,
+a.comment-reply-link{
     border: 1px solid #787878;
     color: #262223;
     display: inline-block;
@@ -654,7 +671,10 @@ p.nocomments{
     transition: 0.2s ease-out;
 }
 
-.subscribeBox a:hover{
+a.comment-reply-link{margin-top: 10px;}
+
+.subscribeBox a:hover,
+a.comment-reply-link:hover{
     color: #FFF;
     background: #fcd68a;
     border:1px solid #fcd68a;
@@ -785,6 +805,10 @@ p.nocomments{
     resize:none;
 }
 
+#commentform input[type="text"]{
+    border: 1px solid #787878;
+}
+
 #commentform input[type="submit"]{
     background: none repeat scroll 0 0 transparent;
     border: 1px solid #ee5b2f;
@@ -797,16 +821,18 @@ p.nocomments{
     text-indent: 0;
     text-transform: uppercase;
     width: auto;
-    -webkit-transition: 0.2s ease-out;
-    -moz-transition: 0.2s ease-out;
-    -ms-transition: 0.2s ease-out;
-    -o-transition: 0.2s ease-out;
-    transition: 0.2s ease-out;
+
 }
 
 #commentform input[type="submit"]:hover {
     background: none repeat scroll 0 0 #ee5b2f;
     color: #fff;
+}
+
+.comment-author{
+    color: #222;
+    font-family: open sans;
+    font-size: 14px;
 }
 
 /* ==========================================================================
