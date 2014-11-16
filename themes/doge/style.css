@@ -412,7 +412,7 @@ p{
     margin: 20px 0; 
 }
 
-#single_event_page hr{
+#single_event_page hr, #stats_page hr{
     margin: 20px 0;
 }
 
@@ -572,12 +572,14 @@ h3#comments{
     vertical-align: middle;
 }
 
-#single_event_page .main.single{
+#single_event_page .main.single,
+#stats_page .main.single{
     margin: 84px auto 0;
     width: 1024px;
 }
 
-#single_event_page .post{
+#single_event_page .post,
+#stats_page .post{
     margin: 0 auto;
     background-color: white;
     padding: 20px;
@@ -833,6 +835,16 @@ a.comment-reply-link:hover{
     color: #222;
     font-family: open sans;
     font-size: 14px;
+}
+
+#stats_page h1{
+    font-family: 'SabonRoman';
+    font-size: 28px;
+    font-weight: normal;
+    font-style: normal;
+    color: #222;
+    text-transform: uppercase;
+    margin: 0 auto 15px;
 }
 
 /* ==========================================================================
