@@ -1,5 +1,4 @@
 <?php
-
 add_action("after_switch_theme", "init_doge_theme");
 
 
@@ -553,4 +552,4 @@ function doge_register_theme_menu() {
     register_nav_menu( 'primary', 'Menu Principal' );
 }
 
-?>
+add_filter('show_admin_bar', '__return_false');

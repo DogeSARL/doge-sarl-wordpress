@@ -1,7 +1,8 @@
-﻿
-
-<form method="get" id="form" action="<?php bloginfo('url'); ?>/">
-  <input type="text" value="<?php the_search_query(); ?>" name="s" id="s">
-  <input type="submit" id="submit">
-</form>
-
+﻿<div id="blog_search_form_wrapper">
+	<form id="blog_search_form" action="<?php bloginfo('siteurl'); ?>"  method="get">
+		<fieldset>
+			<input id="search" class="searchInput" type="search" value="<?php echo trim( get_search_query() ); ?>" name="s">
+			<input class="iconSearch" type="image"  alt="Recherche" src="<?php bloginfo('template_url'); ?>/img/searchformimg.png">
+		</fieldset>
+	</form>
+</div>
