@@ -6,7 +6,7 @@
  get_header(); ?>
 <div id="single_event_page" class="clearfix">
     <div class="main single clearfix">
-        <div class="col70">
+        <div class="col70C">
             <?php if (have_posts()) : ?>
                 <?php while (have_posts()) : the_post(); ?>
                     <div class="post">
