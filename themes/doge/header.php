@@ -46,17 +46,16 @@
                         <img alt="" src="<?php bloginfo('template_url'); ?>/img/shiba_inu_logo.png">
                     </a>
                 </div>
-                
+                <?php wp_nav_menu( array( 'theme_location' => 'header-menu' ) ); ?>
                 <!-- <img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" /> -->
-
-                <ul class="menu clearfix">
+               <!-- <ul class="menu clearfix">
                     <li><a href="<?php bloginfo('url'); ?>">Accueil</a></li>
                     <li><a href="">News</a></li>
                     <li><a href="">Rencontres</a></li>
                     <li><a href="">Croquettes</a></li>
                     <li><a href="">Contact</a></li>
-                    <?php //wp_nav_menu( array( 'container_class' => 'main-nav', 'theme_location' => 'primary' ) ); ?>
-                </ul>
+                </ul> -->
+				<?php /*wp_nav_menu( array( 'container_class' => 'main-nav', 'theme_location' => 'primary' ) ); */?>
             </div>
         </header>
         <div id="container">

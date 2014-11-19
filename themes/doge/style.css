@@ -611,6 +611,22 @@ h3#comments{
     margin-right: 2%;
 }
 
+.col70B{
+    float: right;
+    width: 68%;
+    display: block;
+    margin-left: 2%;
+
+}
+
+.colfull{
+    float: middle;
+    width: 100%;
+    display: block;
+    margin-right: 2%;
+}
+
+
 .col30{
     display: block;
     float: left;
@@ -1040,4 +1056,9 @@ a.comment-reply-link:hover{
     h3 {
         page-break-after: avoid;
     }
+}
+
+#content-fullwidth
+{
+	width : 700px;
 }
