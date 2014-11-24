@@ -35,7 +35,7 @@
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/jquery.bxslider/jquery.bxslider.css">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/style.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="<?php bloginfo('template_url'); ?>/js/vendor/modernizr-2.6.2.min.js"></script>
             <?php wp_head(); ?>
     </head>
     <body>
