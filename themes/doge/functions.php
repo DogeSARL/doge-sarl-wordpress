@@ -1,7 +1,6 @@
 <?php
 add_action("after_switch_theme", "init_doge_theme");
 
-
 function init_doge_theme(){
     global $wpdb;
 
@@ -41,7 +40,7 @@ $custom_meta_fields = array(
     )
 );
 
-add_filter( 'pre_get_posts', 'get_my_events' );
+/*add_filter( 'pre_get_posts', 'get_my_events' );*/
 
 function get_my_events( $query ) {
     if ( is_home() )
@@ -546,10 +545,18 @@ function calendar_script(){
     }
 }
 
-add_action( 'init', 'doge_register_theme_menu' );
-
-function doge_register_theme_menu() {
-    register_nav_menu( 'primary', 'Menu Principal' );
+add_action( 'after_setup_theme', 'register_my_menus' );
+function register_my_menus() {
+  register_nav_menus(
+    array(
+      'header-menu' => __( 'Menu Principal' ),
+      'secondary-menu' => __( 'Menu Secondaire' )
+    )
+  );
 }
+add_action( 'init', 'register_my_menus' );
 
-add_filter('show_admin_bar', '__return_false');
+
+
+
+/*add_filter('show_admin_bar', '__return_false');*/
