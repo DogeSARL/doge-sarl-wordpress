@@ -19,6 +19,10 @@ $(window).on('load resize' , function(){
 	resizeContainer();
 });
 
+$(document).ajaxComplete(function(){
+	resizeContainer();
+});
+
 function titleHome(){
 	if($('#home h2').length){
 		var maxHeight = 0;
