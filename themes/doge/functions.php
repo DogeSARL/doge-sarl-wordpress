@@ -59,7 +59,9 @@ function get_my_events() {
     return $query;
 }
 
-function more_posts( $posts ) {
+function more_posts( $posts = null ) {
+    global $wp_query;
+
     return $posts->current_post + 1 < $posts->post_count;
 }
 
@@ -327,7 +329,7 @@ function show_evenement_date() {
                 <td>';
             echo '<div class="form-group">
                         <div class="input-group date">
-                            <input data-date-format="dd/mm/yyyy hh:ii" type="text" class="form-control" name="'.$field['id'].'" id="'.$field['id'].'" value="'.( $meta instanceof DateTime ? $meta->format("d/m/Y h:i") : '').'" size="30" />
+                            <input required data-date-format="dd/mm/yyyy hh:ii" type="text" class="form-control" name="'.$field['id'].'" id="'.$field['id'].'" value="'.( $meta instanceof DateTime ? $meta->format("d/m/Y h:i") : '').'" size="30" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>                        </div>

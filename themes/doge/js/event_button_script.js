@@ -10,7 +10,7 @@ function inscrire(){
                     alert("Une erreut s'est produite...");
                 }
                 else if (data == 1){
-                    alert("GG");
+                    alert("Such participation ! Many thanks !");
                     $(".subscribeBox").html('<a href="#" id="desinscrire">Je me désinscris</a>');
                     desinscrire();
                 }
@@ -30,7 +30,7 @@ function desinscrire(){
                     alert("Une erreut s'est produite...");
                 }
                 else if (data == 1){
-                    alert("T'es un pussy");
+                    alert("Why you no stay?!");
                     $(".subscribeBox").html('<a href="#" id="participer">Je participe</a>');
                     inscrire();
                 }

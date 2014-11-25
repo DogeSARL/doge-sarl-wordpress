@@ -17,6 +17,11 @@
                         </p>
                         <!-- TODO TRANSLATE -->
                         <div class="post-content">
+                            <?php if( !has_post_thumbnail() ) : ?>
+                                <img alt="" src="<?php bloginfo('template_url'); ?>/img/postpreview.jpg">
+                            <?php else : ?>
+                                <?php the_post_thumbnail(); ?>
+                            <?php endif; ?>
                             <?php the_content(); ?>
                         </div>
                         <div class="subscribeBox">
