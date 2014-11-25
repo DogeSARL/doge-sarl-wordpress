@@ -1,6 +1,6 @@
 	<footer>
 		<div id="insidefooter">
-			<?php wp_nav_menu( array( 'theme_location' => 'primary-menu' ) ); ?>
+			<?php wp_nav_menu( array( 'theme_location' => 'secondary-menu' ) ); ?>
 		</div>
 	</footer>
 </div>

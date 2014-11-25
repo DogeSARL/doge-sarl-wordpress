@@ -46,7 +46,7 @@
 						<img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="" />
                     </a>
                 </div>
-				<?php wp_nav_menu( array( 'theme_location' => 'primary-menu' ) ); ?>
+				<?php wp_nav_menu( array( 'theme_location' => 'header-menu' ) ); ?>
             </div>
 			
         </header>
