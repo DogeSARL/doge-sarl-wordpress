@@ -13,7 +13,8 @@ get_header(); ?>
         <div class="col70">
 	        <div class="post">
 	            <h1 class="post-title">Vous êtes tombé sur un os !</h1>
-	            <div class="post-content">
+	            <div class="post-content">Aucune page n'existe sur cette adresse !
+				<img src="<?php bloginfo('template_url'); ?>/img/bone404.jpg" alt="" style="width:100%;">
 	            </div>
 	        </div>
         </div>
