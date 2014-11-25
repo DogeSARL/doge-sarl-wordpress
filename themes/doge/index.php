@@ -14,39 +14,33 @@
 	    		</div>
 	    		<hr>
 	    		<div class="wrapper_blocks">
-					<a class="border_animate" title="" href="">
+                    <?php $i = 1; ?>
+                    <?php while( have_posts() && $i <= 2 ) : the_post() ?>
+					<a class="border_animate" title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
 						<div class="post_block">
 							<div class="post_image_preview border_container">
 								<div class="border_left"></div>
 								<div class="border_top"></div>
 								<div class="border_right"></div>
 								<div class="border_bottom"></div>
-								<img alt="" src="<?php bloginfo('template_url'); ?>/img/postpreview.jpg">
+                                <?php if( !has_post_thumbnail() ) : ?>
+                                    <img alt="" src="<?php bloginfo('template_url'); ?>/img/postpreview.jpg">
+                                <?php else : ?>
+                                    <?php the_post_thumbnail(); ?>
+                                <?php endif; ?>
 							</div>
 							<div class="preview_text">
-								<h3>Lorem ipsum dominum</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <h3><?php the_title(); ?></h3>
+                                <p><?php the_excerpt(); ?></p>
 							</div>
 							<div class="knowmore">Tu peux cliquer, so amazing -></div>
 						</div>
 					</a>
-	    			<hr class="betweenposts">
-	    			<a class="border_animate" title="" href="">
-						<div class="post_block">
-							<div class="post_image_preview border_container">
-								<div class="border_left"></div>
-								<div class="border_top"></div>
-								<div class="border_right"></div>
-								<div class="border_bottom"></div>
-								<img alt="" src="<?php bloginfo('template_url'); ?>/img/postpreview.jpg">
-							</div>
-							<div class="preview_text">
-								<h3>Lorem ipsum dominum</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-							</div>
-							<div class="knowmore">Tu peux cliquer, so amazing -></div>
-						</div>
-					</a>
+                    <?php if( more_posts() ) : ?>
+                        <hr class="betweenposts">
+                    <?php endif; ?>
+                    <?php $i++; ?>
+                    <?php endwhile; ?>
 	    		</div>
 	    	</div>
 	    	<div class="col_50 wrapper_50_home">
@@ -79,7 +73,8 @@
                                     <div class="knowmore">Tu peux cliquer, so amazing -></div>
                                 </div>
                             </a>
-                            <?php if( more_posts( $posts ) ) : ?>
+
+                            <?php if( $posts->current_post + 1 != $posts->post_count ) : ?>
                                 <hr class="betweenposts">
                             <?php endif; ?>
                         <?php endwhile; ?>
