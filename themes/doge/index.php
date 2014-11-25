@@ -51,8 +51,9 @@
 	    		<hr>
 	    		<div class="wrapper_blocks">
                     <?php $posts = get_my_events(); ?>
+                    <?php $i = 1; ?>
                     <?php if( $posts->have_posts() ) : ?>
-                        <?php while( $posts->have_posts() ) : $posts->the_post(); ?>
+                        <?php while( $posts->have_posts() && $i <= 2 ) : $posts->the_post(); ?>
                             <a class="border_animate" title="<?php echo the_title(); ?>" href="<?php the_permalink(); ?>">
                                 <div class="post_block">
                                     <div class="post_image_preview border_container">
@@ -74,9 +75,10 @@
                                 </div>
                             </a>
 
-                            <?php if( $posts->current_post + 1 != $posts->post_count ) : ?>
+                            <?php if( $posts->current_post + 1 != $posts->post_count && $i != 2 ) : ?>
                                 <hr class="betweenposts">
                             <?php endif; ?>
+                            <?php $i++; ?>
                         <?php endwhile; ?>
                     <?php else: ?>
                         Wouf wouf wouf... Wouf !

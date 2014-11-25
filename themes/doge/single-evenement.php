@@ -22,6 +22,10 @@
                             <?php else : ?>
                                 <?php the_post_thumbnail(); ?>
                             <?php endif; ?>
+                            <div style="margin-top:10px">
+                                <p style="font-weight:bold;font-size: 16px;">Début de l'événement :<?php $meta = DateTime::createFromFormat("Y-m-d H:i", get_post_meta( get_the_ID(), "evenement_date_debut")[0] );echo $meta->format("d/m/Y H:i"); ?></p>
+                                <p style="font-weight:bold;font-size: 16px;">Fin de l'événement : <?php $meta = DateTime::createFromFormat("Y-m-d H:i", get_post_meta( get_the_ID(), "evenement_date_fin")[0] );echo $meta->format("d/m/Y H:i"); ?></p>
+                            </div>
                             <?php the_content(); ?>
                         </div>
                         <div class="subscribeBox">
