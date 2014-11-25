@@ -38,7 +38,7 @@
         <script src="<?php bloginfo('template_url'); ?>/js/vendor/modernizr-2.6.2.min.js"></script>
             <?php wp_head(); ?>
     </head>
-    <body>
+    <body class="custom-background">
         <header>
             <div id="header_menu" class="clearfix">
                 <div class="logo_wrapper">

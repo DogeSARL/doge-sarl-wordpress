@@ -566,6 +566,8 @@ $args = array(
 );
 add_theme_support( 'custom-header', $args );
 
+add_theme_support( 'custom-background' );
 
+show_admin_bar( false );
 
 /*add_filter('show_admin_bar', '__return_false');*/
