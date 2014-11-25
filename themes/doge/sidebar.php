@@ -12,3 +12,6 @@
 <ul class="list">
 	<?php wp_get_archives('type=monthly'); ?>
 </ul>
+
+
+	<?php dynamic_sidebar( 'primary' ); ?>

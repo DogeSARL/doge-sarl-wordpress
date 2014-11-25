@@ -43,7 +43,7 @@ get_header(); ?>
 
 					endwhile;
 					// Previous/next page navigation.
-					doge_paging_nav();
+//					doge_paging_nav();
 
 				else :
 					// If no content, include the "No posts found" template.

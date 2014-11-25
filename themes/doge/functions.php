@@ -1,5 +1,6 @@
 <?php
 add_action("after_switch_theme", "init_doge_theme");
+add_theme_support( 'post-thumbnails' );
 
 function init_doge_theme(){
     global $wpdb;
@@ -42,11 +43,26 @@ $custom_meta_fields = array(
 
 /*add_filter( 'pre_get_posts', 'get_my_events' );*/
 
-function get_my_events( $query ) {
-    if ( is_home() )
-        $query->set( 'post_type', array( 'evenement' ) );
+function get_my_events() {
+    global $custom_meta_fields;
+
+    $date = new DateTime();
+    $args = array(
+        'post_type' => 'evenement',
+        'meta_key' => $custom_meta_fields[0]['id'],
+        'meta_value' => $date->format("Y-m-d H:i:s"),
+        'meta_compare' => '>'
+    );
+
+    $query = new WP_Query( $args );
 
     return $query;
+}
+
+function more_posts( $posts = null ) {
+    global $wp_query;
+
+    return $posts->current_post + 1 < $posts->post_count;
 }
 
 add_action( 'init', 'create_post_type' );
@@ -70,7 +86,7 @@ function create_post_type() {
                 'menu_name'           => __( 'Evénements', THEMENAME ),
             ),
             'public' => true,
-            'supports' => array( 'title', 'editor', 'comments' ),
+            'supports' => array( 'title', 'editor', 'comments', 'thumbnail' ),
             'rewrite' => [ 'slug' => 'evenements' ]
         )
     );
@@ -246,7 +262,8 @@ function add_admin_scripts( $hook ) {
             wp_enqueue_script(  'datetimepicker', get_template_directory_uri().'/js/bootstrap-datetimepicker.js' );
             wp_enqueue_script(  'datetimepicker-locale', get_template_directory_uri().'/js/locales/bootstrap-datetimepicker.fr.js', [], false, true );
             wp_enqueue_script(  'app', get_template_directory_uri().'/js/admin_datetimepicker.js', [], false, true );
-            wp_enqueue_style(  'bootstrap', get_template_directory_uri().'/css/bootstrap.css' );
+
+            wp_enqueue_style(  'bootstrap', get_template_directory_uri().'/components/bootstrap3/css/bootstrap.css' );
             wp_enqueue_style(  'bootstrap-datetime', get_template_directory_uri().'/css/bootstrap-datetimepicker.css' );
         }
     }
@@ -312,7 +329,7 @@ function show_evenement_date() {
                 <td>';
             echo '<div class="form-group">
                         <div class="input-group date">
-                            <input data-date-format="dd/mm/yyyy hh:ii" type="text" class="form-control" name="'.$field['id'].'" id="'.$field['id'].'" value="'.( $meta instanceof DateTime ? $meta->format("d/m/Y h:i") : '').'" size="30" />
+                            <input required data-date-format="dd/mm/yyyy hh:ii" type="text" class="form-control" name="'.$field['id'].'" id="'.$field['id'].'" value="'.( $meta instanceof DateTime ? $meta->format("d/m/Y h:i") : '').'" size="30" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>                        </div>
@@ -390,23 +407,24 @@ function save_evenement_date($post_id) {
 }
 add_action('save_post', 'save_evenement_date');
 
-// register Foo_Widget widget
-function register_my_widget() {
-    register_widget( 'MyWidget' );
-}
-add_action( 'widgets_init', 'register_my_widget' );
+add_action( 'widgets_init', 'my_register_sidebars' );
 
-function arphabet_widgets_init() {
-    register_sidebar( array(
-        'name' => 'Home right sidebar',
-        'id' => 'home_right_1',
-        'before_widget' => '<div>',
-        'after_widget' => '</div>',
-        'before_title' => '<h2 class="rounded">',
-        'after_title' => '</h2>',
-    ) );
+function my_register_sidebars() {
+
+	register_sidebar(
+		array(
+			'id' => 'primary',
+			'name' => __( 'Primary' ),
+			'description' => __( 'widget à afficher' ),
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget' => '</div>',
+			'before_title' => '<h3 class="widget-title">',
+			'after_title' => '</h3>'
+		)
+	);
+
 }
-add_action( 'widgets_init', 'arphabet_widgets_init' );
+
 
 add_action( 'wp_ajax_get_events', 'getEvents' );
 
@@ -541,7 +559,7 @@ function calendar_script(){
 
         wp_localize_script('calendar_app', 'ajax_options', $ajaxData);
 
-        wp_enqueue_style('bootstrap_css', get_template_directory_uri().'/css/bootstrap.css');
+        wp_enqueue_style('bootstrap_css', get_template_directory_uri().'/components/bootstrap3/css/bootstrap.css');
         wp_enqueue_style('calendar_css', get_template_directory_uri().'/css/calendar.css');
     }
 }
