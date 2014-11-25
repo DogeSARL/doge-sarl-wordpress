@@ -70,6 +70,7 @@ function create_post_type() {
                 'menu_name'           => __( 'Evénements', THEMENAME ),
             ),
             'public' => true,
+            'supports' => array( 'title', 'editor', 'comments' ),
             'rewrite' => [ 'slug' => 'evenements' ]
         )
     );
