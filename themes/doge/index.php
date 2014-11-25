@@ -36,7 +36,7 @@
 							<div class="knowmore">Tu peux cliquer, so amazing -></div>
 						</div>
 					</a>
-                    <?php if( more_posts() ) : ?>
+                    <?php if( $i != 2 ) : ?>
                         <hr class="betweenposts">
                     <?php endif; ?>
                     <?php $i++; ?>
