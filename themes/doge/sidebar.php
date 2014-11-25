@@ -8,10 +8,10 @@
 <?php get_search_form(); ?>
 <hr>
 <!-- Archives -->
-<p class="archives_titles">Les archives</p>
+<!-- <p class="archives_titles">Les archives</p>
 <ul class="list">
 	<?php wp_get_archives('type=monthly'); ?>
-</ul>
+</ul> -->
 
 
 	<?php dynamic_sidebar( 'primary' ); ?>

@@ -121,6 +121,17 @@ textarea {
     font-style: normal;
 }
 
+.resultat{
+     color: #404040;
+    font-family: "SabonBold";
+    font-size: 22px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 22px;
+    margin: 0 0 7px;
+    text-transform: uppercase;
+}
+
 #container a{
     text-decoration: none;
 }
