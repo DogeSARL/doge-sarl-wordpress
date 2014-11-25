@@ -13,8 +13,5 @@
 	<?php wp_get_archives('type=monthly'); ?>
 </ul>
 
-<div id="sidebar-primary" class="sidebar">
 
 	<?php dynamic_sidebar( 'primary' ); ?>
-
-</div>
