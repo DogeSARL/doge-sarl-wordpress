@@ -227,7 +227,7 @@ ul.menu{
     width: 100%;
     height: auto;
     position: relative;
-    padding-bottom: 100px;
+    padding-bottom: 0;
 }
 
 #home{
@@ -515,7 +515,7 @@ footer{
     width: 100%;
     background: #ffffff;
     margin-top:50px;
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 0;
 }
@@ -915,7 +915,8 @@ a.comment-reply-link:hover{
 #insidefooter div.menu ul li, #header_menu div.menu ul li{
     float: left;
     display: block;
-    list-style-type:none; 
+    list-style-type:none;
+    max-height: 50px;
 }
 
 /* ==========================================================================
