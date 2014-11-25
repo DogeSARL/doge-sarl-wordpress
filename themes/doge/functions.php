@@ -575,8 +575,8 @@ add_action( 'init', 'register_my_menus' );
 add_theme_support( 'custom-header' );
 
 $args = array(
-	'width'         => 60,
-	'height'        => 80,
+	'width'         => 80,
+	'height'        => 50,
 	'default-image' => get_template_directory_uri() . '/img/header.jpg',
 );
 add_theme_support( 'custom-header', $args );
