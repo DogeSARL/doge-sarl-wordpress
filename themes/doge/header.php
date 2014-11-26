@@ -29,7 +29,7 @@
               echo wp_title( ' | ', 'false', 'right' ); bloginfo( 'name' );
         } ?></title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
         <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/normalize.css">
         <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/js/jquery.bxslider/jquery.bxslider.css">

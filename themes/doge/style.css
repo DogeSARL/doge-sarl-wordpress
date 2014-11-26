@@ -238,7 +238,7 @@ ul.menu{
     width: 100%;
     height: auto;
     position: relative;
-    padding-bottom: 0;
+    padding-bottom: 100px;
 }
 
 #home{
@@ -526,7 +526,7 @@ footer{
     width: 100%;
     background: #ffffff;
     margin-top:50px;
-    position: relative;
+    position: absolute;
     bottom: 0;
     left: 0;
 }
@@ -927,7 +927,6 @@ a.comment-reply-link:hover{
     float: left;
     display: block;
     list-style-type:none;
-    max-height: 50px;
 }
 
 /* ==========================================================================
