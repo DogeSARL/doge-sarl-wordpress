@@ -9,19 +9,20 @@ $(document).ready(function(){
 		preloadImages: 'all',
 		easing: 'ease-in-out'
 	});
+	resizeContainer();
 });
 
 $(window).load(function(){
 	titleHome();	
 });
 
-$(window).on('load resize' , function(){
+/*$(window).on('load resize' , function(){
 	resizeContainer();
 });
 
 $(document).ajaxComplete(function(){
 	resizeContainer();
-});
+});*/
 
 function titleHome(){
 	if($('#home h2').length){

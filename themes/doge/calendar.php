@@ -6,7 +6,7 @@ get_header();
 
 ?>
 <div id="calendar_page">
-    <div class="row">
+    <div class="row calendarnav">
         <div class="page-header clearfix">
             <div class="pull-right">
                 <div class="form-inline">

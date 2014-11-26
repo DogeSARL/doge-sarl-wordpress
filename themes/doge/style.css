@@ -232,6 +232,10 @@ ul.menu{
     height: auto;
 }
 
+.row.calendarnav{
+    margin: 0 !important;
+}
+
 #container{
     margin: 0;
     padding: 0;
@@ -239,6 +243,7 @@ ul.menu{
     height: auto;
     position: relative;
     padding-bottom: 100px;
+    min-height: 500px;
 }
 
 #home{
